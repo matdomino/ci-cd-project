@@ -5,10 +5,10 @@ import com.atracker.achievement_tracker.model.Game;
 import com.atracker.achievement_tracker.service.AchievementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.UUID;
-
 
 @RestController
 @RequestMapping("/games")
@@ -17,7 +17,7 @@ public class RESTContoller {
     private AchievementService achievementService;
 
     @PostMapping
-    public Game addGame(@RequestBody Game game) {
+    public Game addGame(@Valid @RequestBody Game game) {
         return achievementService.addGame(game);
     }
 
@@ -37,12 +37,12 @@ public class RESTContoller {
     }
 
     @PostMapping("/{id}/achievements")
-    public Achievement addAchievement(@PathVariable("id") UUID gameId, @RequestBody Achievement achievement) {
+    public Achievement addAchievement(@PathVariable("id") UUID gameId, @Valid @RequestBody Achievement achievement) {
         return achievementService.addAchievementToGame(gameId, achievement);
     }
 
     @PutMapping("/{gameId}/achievements/{achievementId}")
-    public Achievement updateAchievement(@PathVariable("gameId") UUID gameId, @PathVariable("achievementId") UUID achievementId, @RequestBody Achievement achievement) {
+    public Achievement updateAchievement(@PathVariable("gameId") UUID gameId, @PathVariable("achievementId") UUID achievementId, @Valid @RequestBody Achievement achievement) {
         return achievementService.updateAchievement(gameId, achievementId, achievement);
     }
 

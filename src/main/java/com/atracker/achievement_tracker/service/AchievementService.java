@@ -59,7 +59,7 @@ public class AchievementService {
 
             updatedAchievement.setType(achievement.getType());
             updatedAchievement.setDescription(achievement.getDescription());
-            updatedAchievement.setAchievement_date(achievement.getAchievement_date());
+            updatedAchievement.setAchievementDate(achievement.getAchievementDate());
 
             Optional<Game> game = gameRepository.findById(gameId);
             if (game.isPresent()) {

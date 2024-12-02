@@ -1,9 +1,12 @@
 package com.atracker.achievement_tracker.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.Date;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.List;
 
@@ -13,9 +16,16 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @NotNull(message = "Title cannot be null")
+    @Size(min = 1, message = "Title cannot be empty")
     private String title;
+
+    @NotNull(message = "Category cannot be null")
+    @Size(min = 1, message = "Category cannot be empty")
     private String category;
-    private Date release_date;
+
+    @NotNull(message = "Release date cannot be null")
+    private LocalDateTime releaseDate;
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -23,10 +33,10 @@ public class Game {
 
     public Game() {}
 
-    public Game(String title, String category, Date release_date) {
+    public Game(String title, String category, LocalDateTime releaseDate) {
         this.title = title;
         this.category = category;
-        this.release_date = release_date;
+        this.releaseDate = releaseDate;
     }
 
     public UUID getId() { return id; }
@@ -38,8 +48,8 @@ public class Game {
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
 
-    public Date getRelease_date() { return release_date; }
-    public void setRelease_date(Date release_date) { this.release_date = release_date; }
+    public LocalDateTime getRelease_date() { return releaseDate; }
+    public void setRelease_date(LocalDateTime releaseDate) { this.releaseDate = releaseDate; }
 
     public List<Achievement> getAchievements() { return achievements; }
     public void setAchievements(List<Achievement> achievements) { this.achievements = achievements; }
@@ -47,6 +57,6 @@ public class Game {
 
     @Override
     public String toString() {
-        return "ID: " + id + ", tytuł " + title + ", kategoria: " + category + ", data wydania: " + release_date;
+        return "ID: " + id + ", tytuł " + title + ", kategoria: " + category + ", data wydania: " + releaseDate;
     }
 }
