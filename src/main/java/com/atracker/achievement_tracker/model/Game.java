@@ -48,8 +48,8 @@ public class Game {
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
 
-    public LocalDateTime getRelease_date() { return releaseDate; }
-    public void setRelease_date(LocalDateTime releaseDate) { this.releaseDate = releaseDate; }
+    public LocalDateTime getReleaseDate() { return releaseDate; }
+    public void setReleaseDate(LocalDateTime releaseDate) { this.releaseDate = releaseDate; }
 
     public List<Achievement> getAchievements() { return achievements; }
     public void setAchievements(List<Achievement> achievements) { this.achievements = achievements; }

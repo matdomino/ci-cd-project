@@ -26,6 +26,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.hibernate.validator:hibernate-validator'
 	implementation 'jakarta.validation:jakarta.validation-api'
+	testImplementation 'org.mockito:mockito-core:5.5.0'
+	testImplementation 'org.mockito:mockito-junit-jupiter:5.5.0'
 }
 
 tasks.named('test') {
