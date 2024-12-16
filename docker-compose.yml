@@ -1,0 +1,47 @@
+version: '3.1'
+
+services:
+  at-postgres-db:
+    image: postgres:latest
+    container_name: at-db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d
+    networks:
+      - at-net
+
+  at-spring-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: at_api
+    environment:
+      - SPRING_PROFILES_ACTIVE=test
+      - AT_DATABASE_URL=jdbc:postgresql://at-postgres-db:5432/${DB_NAME}
+      - AT_DATABASE_USERNAME=${DB_USER}
+      - AT_DATABASE_PASSWORD=${DB_PASSWORD}
+      - SPRING_LOGGING_LEVEL_ROOT=DEBUG
+      - SPRING_LOGGING_LEVEL_ORG_SPRINGFRAMEWORK=DEBUG
+    ports:
+      - "8080:8080"
+    networks:
+      - at-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/games"]
+      interval: 30s
+      retries: 3
+      start_period: 10s
+      timeout: 10s
+
+networks:
+  at-net:
+    driver: bridge
+
+volumes:
+  db_data:
