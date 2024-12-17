@@ -5,7 +5,7 @@ WORKDIR /app
 COPY build.gradle settings.gradle ./
 COPY src ./src
 
-RUN gradle build --no-daemon -x test
+RUN gradle build --no-daemon
 
 FROM openjdk:23-jdk-slim
 
