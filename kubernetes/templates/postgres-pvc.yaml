@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Chart.Name }}-pvc
+spec:
+  storageClassName: {{ .Values.postgres.persistence.storageClassName }}
+  accessModes:
+    - {{ .Values.postgres.persistence.accessModes }}
+  resources:
+    requests:
+      storage: {{ .Values.postgres.persistence.size }}

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Chart.Name }}-pv
+  labels:
+    type: {{ .Values.postgres.persistence.type }}
+spec:
+  storageClassName: {{ .Values.postgres.persistence.storageClassName }}
+  capacity:
+    storage: {{ .Values.postgres.persistence.size }}
+  accessModes:
+    - {{ .Values.postgres.persistence.accessModes }}
+  hostPath:
+    path: {{ .Values.postgres.persistence.path }}

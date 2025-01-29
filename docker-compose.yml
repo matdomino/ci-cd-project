@@ -23,7 +23,9 @@ services:
     container_name: at_api
     environment:
       - SPRING_PROFILES_ACTIVE=test
-      - AT_DATABASE_URL=jdbc:postgresql://at-postgres-db:5432/${DB_NAME}
+      - AT_DB_HOST=jdbc:postgresql://at-postgres-db
+      - AT_DB_PORT=5432
+      - AT_DB_NAME=${DB_NAME}
       - AT_DATABASE_USERNAME=${DB_USER}
       - AT_DATABASE_PASSWORD=${DB_PASSWORD}
       - SPRING_LOGGING_LEVEL_ROOT=DEBUG
