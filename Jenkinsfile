@@ -17,6 +17,9 @@ pipeline {
         }
 
         stage('Build docker image') {
+            when {
+                branch 'main'
+            }
             environment {
                 DOCKER_CREDENTIALS = credentials('dockerhub-credentials')
             }
