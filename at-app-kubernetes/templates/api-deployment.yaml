@@ -1,20 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.spring.apiServiceName }}
+  name: {{ .Values.spring.apiDeploymentName }}
 spec:
   replicas: {{ .Values.spring.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Values.spring.apiServiceName }}
+      app: {{ .Values.spring.apiDeploymentName }}
   template:
     metadata:
       labels:
-        app: {{ .Values.spring.apiServiceName }}
+        app: {{ .Values.spring.apiDeploymentName }}
     spec:
       containers:
         - name: {{ .Values.spring.apiServiceName }}
-          image: {{ .Values.spring.repository }}
+          image: "{{ .Values.spring.repository }}:{{ .Values.spring.label }}"
+          imagePullPolicy: {{ .Values.spring.pullPolicy }}
           ports:
             - containerPort: {{ .Values.spring.port }}
           env:
@@ -25,31 +26,31 @@ spec:
             - name: AT_DATABASE_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
-                  key: POSTGRES_USER
+                  name: {{ .Values.spring.secrets.AT_DATABASE_USERNAME.name }}
+                  key: {{ .Values.spring.secrets.AT_DATABASE_USERNAME.key }}
             - name: AT_DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
-                  key: POSTGRES_PASSWORD
+                  name: {{ .Values.spring.secrets.AT_DATABASE_PASSWORD.name }}
+                  key: {{ .Values.spring.secrets.AT_DATABASE_PASSWORD.key }}
             - name: AT_DB_NAME
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
-                  key: POSTGRES_DB
+                  name: {{ .Values.spring.secrets.AT_DB_NAME.name }}
+                  key: {{ .Values.spring.secrets.AT_DB_NAME.key }}
             - name: SPRING_LOGGING_LEVEL_ROOT
               value: {{ .Values.spring.env.SPRING_LOGGING_LEVEL_ROOT }}
             - name: SPRING_LOGGING_LEVEL_ORG_SPRINGFRAMEWORK
               value: {{ .Values.spring.env.SPRING_LOGGING_LEVEL_ORG_SPRINGFRAMEWORK }}
           livenessProbe:
             httpGet:
-              path: {{ .Values.spring.healthCheckEndpoint }}
+              path: {{ .Values.spring.livenessProbe.path }}
               port: {{ .Values.spring.port }}
-            initialDelaySeconds: {{ .Values.spring.healthCheckDelay }}
-            periodSeconds: {{ .Values.spring.healthCheckPeriod }}
+            initialDelaySeconds: {{ .Values.spring.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.spring.livenessProbe.periodSeconds }}
           readinessProbe:
             httpGet:
-              path: {{ .Values.spring.healthCheckEndpoint }}
+              path: {{ .Values.spring.readinessProbe.path }}
               port: {{ .Values.spring.port }}
-            initialDelaySeconds: {{ .Values.spring.healthCheckDelay }}
-            periodSeconds: {{ .Values.spring.healthCheckPeriod }}
+            initialDelaySeconds: {{ .Values.spring.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.spring.readinessProbe.periodSeconds }}

@@ -1,0 +1,75 @@
+postgres:
+  repository: postgres
+  label: 17.2
+  pullPolicy: IfNotPresent
+  replicaCount: 1
+  port: 5432
+  dbServiceName: at-app-postgres-service
+  dbDeploymentName: at-app-postgres-deployment
+  username: ""
+  password: ""
+  database: ""
+  volumeName: at-app-volume
+  mountPath: /var/lib/postgresql/data
+  persistence:
+    pvClaimName: at-app-postgres-pv
+    pvcClaimName: at-app-postgres-pvc
+    type: local
+    size: 10Gi
+    storageClassName: manual
+    accessModes: ReadWriteOnce
+    path: /mnt/data
+  secrets:
+    name: postgres-secret
+    type: Opaque
+    POSTGRES_USER:
+      name: postgres-secret
+      key: POSTGRES_USER
+    POSTGRES_PASSWORD:
+      name: postgres-secret
+      key: POSTGRES_PASSWORD
+    POSTGRES_DB:
+      name: postgres-secret
+      key: POSTGRES_DB
+
+spring:
+  apiServiceName: at-app-spring-api-service
+  apiDeploymentName: at-app-sprint-api-deployment
+  serviceType: ClusterIP
+  repository: matdomino/at_app
+  label: 0.0.2-SNAPSHOT.6077ff9
+  pullPolicy: IfNotPresent
+  replicaCount: 3
+  servicePort: 80
+  port: 8080
+  env:
+    DATABASE_URL: jdbc:postgresql://
+    SPRING_LOGGING_LEVEL_ROOT: DEBUG
+    SPRING_LOGGING_LEVEL_ORG_SPRINGFRAMEWORK: DEBUG
+  secrets:
+    AT_DATABASE_USERNAME: 
+      name: postgres-secret
+      key: POSTGRES_USER
+    AT_DATABASE_PASSWORD:
+      name: postgres-secret
+      key: POSTGRES_PASSWORD
+    AT_DB_NAME:
+      name: postgres-secret
+      key: POSTGRES_DB
+  livenessProbe:
+    path: /games
+    initialDelaySeconds: 120
+    periodSeconds: 30
+  readinessProbe:
+    path: /games
+    initialDelaySeconds: 120
+    periodSeconds: 30
+
+nginx:
+  name: at-app-nginx-ingress
+  rewriteTarget: /
+  ingressClassName: nginx
+  host: localhost
+  path: /
+  pathType: Prefix
+  port: 80

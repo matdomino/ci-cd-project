@@ -7,4 +7,4 @@ spec:
     - port: {{ .Values.postgres.port }}
       targetPort: {{ .Values.postgres.port }}
   selector:
-    app: {{ .Values.postgres.dbServiceName }}
+    app: {{ .Values.postgres.dbDeploymentName }}

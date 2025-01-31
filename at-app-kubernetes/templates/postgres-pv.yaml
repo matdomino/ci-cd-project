@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: {{ .Chart.Name }}-pv
+  name: {{ .Values.postgres.persistence.pvClaimName }}
   labels:
     type: {{ .Values.postgres.persistence.type }}
 spec:

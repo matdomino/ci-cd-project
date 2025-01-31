@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.postgres.dbDeploymentName }}
+spec:
+  replicas: {{ .Values.postgres.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.postgres.dbDeploymentName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.postgres.dbDeploymentName }}
+    spec:
+      containers:
+        - name: {{ .Values.postgres.dbServiceName }}
+          image: "{{ .Values.postgres.repository }}:{{ .Values.postgres.label }}"
+          imagePullPolicy: {{ .Values.postgres.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.postgres.port }}
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.postgres.secrets.POSTGRES_USER.name }}
+                  key: {{ .Values.postgres.secrets.POSTGRES_USER.key }}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.postgres.secrets.POSTGRES_PASSWORD.name }}
+                  key: {{ .Values.postgres.secrets.POSTGRES_PASSWORD.key }}
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.postgres.secrets.POSTGRES_DB.name }}
+                  key: {{ .Values.postgres.secrets.POSTGRES_DB.key }}
+          volumeMounts:
+            - name: {{ .Values.postgres.volumeName }}
+              mountPath: {{ .Values.postgres.mountPath }}
+      volumes:
+        - name: {{ .Values.postgres.volumeName }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.postgres.persistence.pvcClaimName }}
