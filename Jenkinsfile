@@ -8,7 +8,11 @@ pipeline {
     stages {
         stage('Build app') {
             agent {
-                docker { image 'gradle:8.11.1-jdk23' }
+                dockerfile {
+                    filename 'Dockerfile'
+                    dir '/build-image'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                }
             }
 
             steps {

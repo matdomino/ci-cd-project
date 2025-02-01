@@ -28,6 +28,9 @@ dependencies {
 	implementation 'jakarta.validation:jakarta.validation-api'
 	testImplementation 'org.mockito:mockito-core:5.5.0'
 	testImplementation 'org.mockito:mockito-junit-jupiter:5.5.0'
+	testImplementation 'org.testcontainers:junit-jupiter:1.20.4'
+	testImplementation "org.testcontainers:postgresql:1.20.4"
+
 }
 
 tasks.named('test') {
