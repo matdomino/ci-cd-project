@@ -28,31 +28,16 @@ import static org.hamcrest.Matchers.*;
 @AutoConfigureMockMvc
 @Testcontainers
 public class ControllerIntegrationTests {
-//    @Container
-//    public static PostgreSQLContainer<?> postgresContainer =
-//            new PostgreSQLContainer<>("postgres:17.2");
-//
-//
-//    @DynamicPropertySource
-//    static void registerProperties(DynamicPropertyRegistry registry) {
-//        registry.add("spring.datasource.url", postgresContainer::getJdbcUrl);
-//        registry.add("spring.datasource.username", postgresContainer::getUsername);
-//        registry.add("spring.datasource.password", postgresContainer::getPassword);
-//    }
+   @Container
+   public static PostgreSQLContainer<?> postgresContainer =
+           new PostgreSQLContainer<>("postgres:17.2");
 
-    @Container
-    public static PostgreSQLContainer postgreSQL =
-            new PostgreSQLContainer("postgres:13.1")
-                    .withUsername("testUsername")
-                    .withPassword("testPassword")
-                    .withDatabaseName("testDatabase");
-
-    @DynamicPropertySource
-    static void postgresqlProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgreSQL::getJdbcUrl);
-        registry.add("spring.datasource.password", postgreSQL::getPassword);
-        registry.add("spring.datasource.username", postgreSQL::getUsername);
-    }
+   @DynamicPropertySource
+   static void registerProperties(DynamicPropertyRegistry registry) {
+       registry.add("spring.datasource.url", postgresContainer::getJdbcUrl);
+       registry.add("spring.datasource.username", postgresContainer::getUsername);
+       registry.add("spring.datasource.password", postgresContainer::getPassword);
+   }
 
     @Autowired
     private MockMvc mockMvc;
