@@ -21,7 +21,7 @@ pipeline {
                 dockerfile {
                     filename 'Dockerfile'
                     dir 'build-image'
-                    args '--privileged -v /var/run/docker.sock:/var/run/docker.sock'
+                    args '-u $AGENT_UID:$AGENT_GID -v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
             steps {
