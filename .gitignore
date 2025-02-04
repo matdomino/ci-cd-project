@@ -38,3 +38,7 @@ out/
 
 # Docker-compose
 .env
+
+# Chart
+at-app-kubernetes/charts/
+at-app-kubernetes/Chart.lock
