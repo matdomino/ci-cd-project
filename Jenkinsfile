@@ -21,10 +21,11 @@ pipeline {
                 dockerfile {
                     filename 'Dockerfile'
                     dir 'build-image'
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                    args '--privileged -v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
             steps {
+                sh 'docker --version'
                 sh './gradlew test --no-daemon'
             }
         }
