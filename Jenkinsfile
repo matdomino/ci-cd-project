@@ -10,7 +10,7 @@ pipeline {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
-                    dir '/build-image'
+                    dir 'build-image'
                     args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
