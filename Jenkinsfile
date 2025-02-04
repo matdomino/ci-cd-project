@@ -8,15 +8,24 @@ pipeline {
     stages {
         stage('Build app') {
             agent {
+                docker { image 'gradle:8.11.1-jdk23' }
+            }
+
+            steps {
+                sh './gradlew clean build --no-daemon -x test'
+            }
+        }
+
+        stage('Test') {
+            agent {
                 dockerfile {
                     filename 'Dockerfile'
                     dir 'build-image'
                     args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
-
             steps {
-                sh './gradlew clean build --no-daemon'
+                sh './gradlew test --no-daemon'
             }
         }
 
