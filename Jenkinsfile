@@ -25,7 +25,6 @@ pipeline {
                 }
             }
             steps {
-                sh 'docker --version'
                 sh './gradlew test --no-daemon'
             }
         }

@@ -42,6 +42,13 @@ spec:
               value: {{ .Values.spring.env.SPRING_LOGGING_LEVEL_ROOT }}
             - name: SPRING_LOGGING_LEVEL_ORG_SPRINGFRAMEWORK
               value: {{ .Values.spring.env.SPRING_LOGGING_LEVEL_ORG_SPRINGFRAMEWORK }}
+          resources:
+            requests:
+              memory: "{{ .Values.spring.resources.requests.memory }}"
+              cpu: "{{ .Values.spring.resources.requests.cpu }}"
+            limits:
+              memory: "{{ .Values.spring.resources.limits.memory }}"
+              cpu: "{{ .Values.spring.resources.limits.cpu }}"
           livenessProbe:
             httpGet:
               path: {{ .Values.spring.livenessProbe.path }}
