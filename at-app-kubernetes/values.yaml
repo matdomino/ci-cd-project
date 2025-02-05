@@ -31,13 +31,20 @@ postgres:
     POSTGRES_DB:
       name: postgres-secret
       key: POSTGRES_DB
+  resources:
+    requests:
+      memory: "1Gi"
+      cpu: "1"
+    limits:
+      memory: "4Gi"
+      cpu: "3"
 
 spring:
   apiServiceName: at-app-spring-api-service
   apiDeploymentName: at-app-sprint-api-deployment
   serviceType: ClusterIP
   repository: matdomino/at_app
-  label: 0.0.2-SNAPSHOT.6077ff9
+  label: 0.0.3-SNAPSHOT.88a47d9
   pullPolicy: IfNotPresent
   replicaCount: 3
   servicePort: 80
@@ -64,6 +71,13 @@ spring:
     path: /games
     initialDelaySeconds: 120
     periodSeconds: 30
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "1"
+    limits:
+      memory: "2Gi"
+      cpu: "2"
 
 nginx:
   name: at-app-nginx-ingress

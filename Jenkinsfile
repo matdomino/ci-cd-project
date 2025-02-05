@@ -12,7 +12,20 @@ pipeline {
             }
 
             steps {
-                sh './gradlew clean build --no-daemon'
+                sh './gradlew clean build --no-daemon -x test'
+            }
+        }
+
+        stage('Test') {
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    dir 'build-image'
+                    args '-u $AGENT_UID:$AGENT_GID -v /var/run/docker.sock:/var/run/docker.sock'
+                }
+            }
+            steps {
+                sh './gradlew test --no-daemon'
             }
         }
 
