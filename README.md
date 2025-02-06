@@ -1,12 +1,6 @@
 ## Repozytorium przeniesione z GitLab na GitHub
 
-To repozytorium zostało przeniesione z GitLaba na GitHuba i **nie posiada podłączonego serwera Jenkins**.
-
-![Main branch commit success](readme-imgs/main-success.png)
-
-![Merge Request commit success](readme-imgs/mr-success.png)
-
-## Należy uruchomić w katalogu `kubernetes` za pomocą komendy:
+## Należy uruchomić w katalogu `at-app-kubernetes` za pomocą komendy:
 
 linux:
 ```
